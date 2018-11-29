@@ -6,9 +6,11 @@
    password: <%= user[:password]%></p>
   <% end %>
 
+<p> Minimum eight characters, at least one letter and one number:<p>
+
 <form action="/create" method="POST">
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-  <input type="text" name="username" placeholder="Username">
-  <input type="text" name="password" placeholder="Password">
+  <input type="text" id="username" name="username" placeholder="Username" minlength="3" required>
+  <input type="text" id="password" name="password" placeholder="Password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
   <input type="submit">
 </form>
