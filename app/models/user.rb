@@ -1,7 +1,5 @@
 class User
 
-
-
   def initialize
     @id = 0
   end

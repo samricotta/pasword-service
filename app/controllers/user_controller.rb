@@ -9,18 +9,8 @@ class UserController < ApplicationController
   end
 
   def create
-   validation
+   new_user
    redirect_to new_path
-  end
-
-  def validation
-    return flash[:notice] = "Please create a password" if params[:password].blank?
-    if params[:password] =~ /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,70}$/
-      flash[:notice] = "Password Strong"
-      new_user
-    else
-      flash[:notice] = "Password Weak"
-    end
   end
 
   def find_last_key
@@ -34,3 +24,15 @@ class UserController < ApplicationController
     USERS.merge!(@user)
   end
 end
+
+  def validation
+    if params[:password] =~ /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,70}$/
+      flash[:notice] = "Password Strong"
+      new_user
+    elsif params[:password] =~ /^(?=.*?[a-z])(?=.*?[0-9]).{8,70}$/
+      flash[:notice] = "Password Medium"
+      new_user
+    else
+      flash[:notice] = "Password Weak"
+    end
+  end

@@ -1,16 +1,44 @@
-<h1>Become a member</h1>
 
-<h2> USERS </h2>
-<% @users.each do |id, user| %>
-  <p>name: <%= user[:username]%>,
-   password: <%= user[:password]%></p>
-  <% end %>
+<div class="outer-container">
+  <div class="popup">
+    <div class="headers">
+      <h1>Become a member</h1>
+      <h2> USERS </h2>
+    </div>
+    <div class="content">
+      <% @users.each do |id, user| %>
+        <p>name: <%= user[:username]%>,
+         password: <%= user[:password]%></p>
+      <% end %>
 
-<p> Minimum eight characters, at least one letter and one number:<p>
+      <p> Minimum eight characters, at least one letter and one number:</p>
+      <div id="msg">Min</div>
+      <form action="/create" method="POST">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <input type="text" id="username" name="username" placeholder="Username" required>
+      <input type="text" id="password" name="password" placeholder="Password" minlength="8" required>
+      <input type="submit">
+      </form>
+    </div>
+  </div>
+</div>
 
-<form action="/create" method="POST">
-  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-  <input type="text" id="username" name="username" placeholder="Username" minlength="3" required>
-  <input type="text" id="password" name="password" placeholder="Password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
-  <input type="submit">
-</form>
+<script>
+  const strong = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/
+  // .{8,70}$
+  const medium = /^(?=.*?[a-z])(?=.*?[0-9])/
+  const password = document.getElementById("password");
+  const msg = document.getElementById("msg")
+  password.addEventListener("keyup", (event) => {
+    console.log(event.currentTarget)
+    const s = strong.exec(password.value)
+    const m = medium.exec(password.value)
+    if (s) {
+      msg.innerText = "strong";
+    } else if (m) {
+      msg.innerText = "medium";
+    } else {
+      msg.innerText = "weak";
+    }
+  });
+</script>
