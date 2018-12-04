@@ -5,40 +5,41 @@
       <h1>Become a member</h1>
       <h2> USERS </h2>
     </div>
-    <div class="content">
-      <% @users.each do |id, user| %>
-        <p>name: <%= user[:username]%>,
-         password: <%= user[:password]%></p>
-      <% end %>
+    <div class="content" id="hello">
+      <%# @users.each do |id, user| %>
+       <!--  <p>name: <%#= user[:username]%>,
+         password: <%#= user[:password]%></p> -- -->
+      <%# end %>
 
       <p> Minimum eight characters, at least one letter and one number:</p>
-      <div id="msg">Min</div>
-      <form action="/create" method="POST">
-      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-      <input type="text" id="username" name="username" placeholder="Username" required>
-      <input type="text" id="password" name="password" placeholder="Password" minlength="8" required>
-      <input type="submit">
-      </form>
+      <div id="msg">Password</div>
+      <%= form_tag create_path, method: :post, remote: true do %>
+        <%= text_field_tag :username %>
+        <%= text_field_tag :password %>
+        <%= submit_tag %>
+      <% end %>
     </div>
   </div>
 </div>
 
 <script>
-  const strong = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/
+  // const strong = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/
   // .{8,70}$
-  const medium = /^(?=.*?[a-z])(?=.*?[0-9])/
+  // const medium = /^(?=.*?[a-z])(?=.*?[0-9])/
+  const form = document.querySelector("form")
   const password = document.getElementById("password");
-  const msg = document.getElementById("msg")
+  // const msg = document.getElementById("msg")
   password.addEventListener("keyup", (event) => {
     console.log(event.currentTarget)
-    const s = strong.exec(password.value)
-    const m = medium.exec(password.value)
-    if (s) {
-      msg.innerText = "strong";
-    } else if (m) {
-      msg.innerText = "medium";
-    } else {
-      msg.innerText = "weak";
-    }
+    // form.submit()
+    // const s = strong.exec(password.value)
+    // const m = medium.exec(password.value)
+    // if (s) {
+    //   msg.innerText = "strong";
+    // } else if (m) {
+    //   msg.innerText = "medium";
+    // } else {
+    //   msg.innerText = "weak";
+    // }
   });
 </script>

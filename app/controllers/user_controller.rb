@@ -9,8 +9,12 @@ class UserController < ApplicationController
   end
 
   def create
-   new_user
-   redirect_to new_path
+   validation
+   # redirect_to new_path
+   respond_to do |format|
+    format.js
+   end
+
   end
 
   def find_last_key
@@ -27,12 +31,12 @@ end
 
   def validation
     if params[:password] =~ /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,70}$/
-      flash[:notice] = "Password Strong"
+      @msg = "Password Strong"
       new_user
     elsif params[:password] =~ /^(?=.*?[a-z])(?=.*?[0-9]).{8,70}$/
-      flash[:notice] = "Password Medium"
+      @msg = "Password Medium"
       new_user
     else
-      flash[:notice] = "Password Weak"
+      @msg = "Password Weak"
     end
   end
